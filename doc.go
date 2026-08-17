@@ -38,9 +38,12 @@ type Meta struct {
 // document announces itself with its masthead, and a page number on the sheet
 // that carries the title tells the reader nothing.
 type RunningHead struct {
+	// Left and Right are the head's two texts, set at the margins; either may be empty.
 	Left, Right string
-	SkipFirst   bool
-	Rules       bool
+	// SkipFirst leaves page one bare, for the sheet that carries the masthead.
+	SkipFirst bool
+	// Rules draws a hairline under the head and above the folio.
+	Rules bool
 	// Folio renders the page number; nil means "N of M", and "" draws none.
 	Folio func(num, total int) string
 	// Style is the furniture's own; a zero style means Scale.Caption in Muted.
