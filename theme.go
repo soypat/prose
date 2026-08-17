@@ -155,6 +155,20 @@ func (t *Theme) fill() {
 		st.Align, st.Color, st.Link.Color = Justify, p.Paper, p.Link
 	}))
 
+	// A link with no color of its own inherits the span it sits in, which in a
+	// heading set in Ink leaves it indistinguishable from the words beside it.
+	// Every style that has not named a link color links in the accent; Panel,
+	// which reverses out of a dark ground, has already named its own.
+	for _, st := range []*Style{
+		&s.Eyebrow, &s.Title, &s.Lead, &s.Body, &s.Small, &s.H2, &s.H3, &s.Sub,
+		&s.Cell, &s.CellHead, &s.Code, &s.Marker, &s.Figure, &s.Caption,
+		&s.Margin, &s.Panel,
+	} {
+		if st.Link.Color == nil {
+			st.Link.Color = p.Accent
+		}
+	}
+
 	if t.Bullet.Marker == "" {
 		// An en dash in the accent, so a list reads as a list without a heavy
 		// glyph in the margin.

@@ -155,6 +155,22 @@ func (k *Kit) Bullet(markup string) Elem {
 	return k.bld.Bullet(k.Theme.Bullet, k.Body(markup))
 }
 
+// Caption is the label under a figure: small, muted, and carrying no ground of
+// its own. A caption is not a caveat, which is what [Kit.Note] sets.
+func (k *Kit) Caption(markup string) Elem { return k.styled(markup, k.Theme.Scale.Caption) }
+
+// Captioned binds a caption to a figure w wide. Both are set in a column of
+// that width, so the caption wraps to the picture's measure rather than to
+// whatever the surrounding cell happens to be, and the two are held on one page:
+// a caption on the page after its figure names nothing.
+//
+// The figure is drawn a frame w wide, so a painter that works from f.Width needs
+// to be told no measurement twice.
+func (k *Kit) Captioned(w float64, fig Elem, markup string) Elem {
+	return k.Columns([]float64{w},
+		k.Keep(fig, k.Space(k.Theme.Rhythm.SubBefore/2), k.Caption(markup)))
+}
+
 // Note is a set-off caveat: the same words as body text on a tinted ground, so
 // a reader skimming for the catch finds it.
 func (k *Kit) Note(markup string) Elem {
@@ -167,7 +183,7 @@ func (k *Kit) Note(markup string) Elem {
 // not the reader read what came before in order.
 func (k *Kit) Panel(markup string) Elem {
 	return k.ground(k.styled(markup, k.Theme.Scale.Panel), k.Theme.Palette.Ink,
-		Padding{Left: 22, Right: 22, Top: 20, Bottom: 20}, nil, 0)
+		k.Theme.Rhythm.PanelPad, nil, 0)
 }
 
 // Code is source on a tinted ground with an accent rule down its left edge. Its
