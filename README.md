@@ -1,6 +1,7 @@
 # prose
 Generate beautiful PDFs.
 
+prose underneath uses the [piudf](https://github.com/soypat/piudf) PDF decoding/encoding library.
 ## Generate examples
 ```
 go run ./examples/prose-docs
