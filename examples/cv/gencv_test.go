@@ -179,8 +179,11 @@ func story(d *prose.Doc, br testing.BenchmarkResult, filter ...Tag) {
 	}
 	var classes []prose.Elem
 	for _, t := range teaching {
-		if wants(t.Tags, filter) {
-			classes = append(classes, teachingEntry(k, t))
+		if !wants(t.Tags, filter) {
+			continue
+		}
+		if e := teachingEntry(k, t, filter); e != nil {
+			classes = append(classes, e)
 		}
 	}
 	side := k.Stack(
@@ -311,22 +314,30 @@ func publicationEntry(k *prose.Kit, p Publication) prose.Elem {
 	return k.Keep(append(lines, k.Space(6))...)
 }
 
-// teachingEntry prints the post and the course. The dedication the ITBA form
-// asks for — hours a week, semesters taught — stays in the data.
-func teachingEntry(k *prose.Kit, t Event) prose.Elem {
+// teachingEntry prints the university once and each class it was taught at
+// under it, with the rank and the years the class carries. It returns nil when
+// the filter keeps no class, so an institution never appears with nothing
+// beneath it.
+func teachingEntry(k *prose.Kit, t Event, filter []Tag) prose.Elem {
 	lines := []prose.Elem{k.Styled(headline(t.Heading), k.Theme.Scale.Body)}
-	var parts []string
-	if t.Description != "" {
-		parts = append(parts, esc(t.Description))
-	}
-	if r := dateRange(t.Start, t.End); r != "" {
-		parts = append(parts, r)
-	}
+	sc := k.Theme.Scale
 	for _, c := range t.SubEvents {
-		parts = append(parts, esc(c.Headline))
+		if !wants(c.Tags, filter) {
+			continue
+		}
+		if len(lines) > 1 {
+			lines = append(lines, k.Space(3))
+		}
+		// The class in ink and its rank and years muted beneath: three steps of
+		// weight down from the university, so the eye finds the classes without
+		// reading them.
+		lines = append(lines, k.Styled(esc(c.Headline), sc.Cell))
+		if m := meta(c); m != "" {
+			lines = append(lines, k.Styled(m, sc.Caption))
+		}
 	}
-	if len(parts) > 0 {
-		lines = append(lines, k.Small(strings.Join(parts, " — ")))
+	if len(lines) == 1 {
+		return nil
 	}
 	return k.Keep(append(lines, k.Space(6))...)
 }
@@ -597,42 +608,47 @@ var talks = []Event{
 	},
 }
 
-// teaching keeps course names in their original Spanish.
+// teaching is one entry per university, newest first, with a sub-event per
+// class. The cargo and the dates belong to the class rather than to the post:
+// the same institution appointed the author to two different ranks seven years
+// apart, so a range on the parent would claim a tenure that was never held.
 var teaching = []Event{
 	{
-		Heading: Heading{Headline: "Instituto Tecnológico de Buenos Aires", Description: "Titular"},
-		Tags:    []Tag{TagEmbedded},
-		Start:   dateJob(2025, 10), End: dateJob(2025, 12),
+		Heading:  Heading{Headline: "Instituto Tecnológico de Buenos Aires"},
+		Tags:     []Tag{TagEmbedded, TagMechanical},
 		Location: locBA,
 		SubEvents: []Event{
-			{Heading: Heading{
-				Headline:    "16.91 – Sistemas Embebidos con Aplicaciones en Biomedicina",
-				Description: "3 hours weekly, 1 semester.",
-			}, Tags: []Tag{TagEmbedded}},
+			{
+				Heading: Heading{
+					Headline:    "16.91 - Embedded Systems with Biomedicine Applications",
+					Description: "Full Professor",
+				},
+				Tags:  []Tag{TagEmbedded},
+				Start: dateJob(2025, 10), End: dateJob(2025, 12),
+			},
+			{
+				Heading: Heading{
+					Headline:    "Thermodynamics",
+					Description: "Teacher Assistant",
+				},
+				Tags:  []Tag{TagMechanical},
+				Start: dateJob(2018, 8), End: dateJob(2019, 7),
+			},
 		},
 	},
 	{
-		Heading: Heading{Headline: "Universidad de San Andrés (Victoria)", Description: "Jefe de Trabajos Prácticos"},
-		Tags:    []Tag{TagIT},
-		Start:   dateJob(2023, 2), End: dateJob(2023, 12),
+		Heading:  Heading{Headline: "Universidad de San Andrés (Victoria)"},
+		Tags:     []Tag{TagIT},
 		Location: locBA,
 		SubEvents: []Event{
-			{Heading: Heading{
-				Headline:    "Introducción al Pensamiento Computacional (Ingeniería)",
-				Description: "8 hours weekly, 2 semesters.",
-			}, Tags: []Tag{TagIT}},
-		},
-	},
-	{
-		Heading: Heading{Headline: "Instituto Tecnológico de Buenos Aires", Description: "Ayudante"},
-		Tags:    []Tag{TagMechanical},
-		Start:   dateJob(2018, 8), End: dateJob(2019, 7),
-		Location: locBA,
-		SubEvents: []Event{
-			{Heading: Heading{
-				Headline:    "Termodinámica",
-				Description: "Under Ricardo Lauretta and Martin Rafael David. 6 hours weekly, 2 semesters.",
-			}, Tags: []Tag{TagMechanical}},
+			{
+				Heading: Heading{
+					Headline:    "Introduction to Computational Thinking (Engineering)",
+					Description: "\"Jefe de Trabajos Prácticos\"",
+				},
+				Tags:  []Tag{TagIT},
+				Start: dateJob(2023, 2), End: dateJob(2023, 12),
+			},
 		},
 	},
 }
@@ -657,7 +673,7 @@ var jobs = []Event{
 			}, Tags: []Tag{TagEmbedded, TagMechanical}},
 			{Heading: Heading{
 				Headline:    "Indgrade",
-				Description: "Machine vision expert for keeping track of personnel hours.",
+				Description: "Machine vision expert for counting pig half-carcasses.",
 				Href:        "https://www.instagram.com/indgrade.ing/",
 			}, Tags: []Tag{TagIT}},
 			{Heading: Heading{
