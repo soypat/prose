@@ -1,2 +1,4 @@
 github.com/soypat/lefevre v0.0.0-20260816213937-7ecc332044df h1:RakgqDAKvg6eS5oLWoEtAtFnaZ09qwA8JqF/0Kifkzs=
 github.com/soypat/lefevre v0.0.0-20260816213937-7ecc332044df/go.mod h1:isEsoKIedVFjONjTPEzACot3Wj7eHvvI1y7j56X3ffU=
+github.com/soypat/piudf v0.0.0-20261014031122-0488960bca38 h1:8bnKAfuCfkwsdD4xkQpVIISjMQpa3TO8ajZ7SaBZfR0=
+github.com/soypat/piudf v0.0.0-20261014031122-0488960bca38/go.mod h1:G6fpCM1bkMaCgrutvuOorahiUeAvH50aY29OsLhFOR4=
