@@ -5,6 +5,7 @@ prose underneath uses the [piudf](https://github.com/soypat/piudf) PDF decoding/
 ## Generate examples
 ```
 go run ./examples/prose-docs
+go run ./examples/proposal -i local/proposal/proposal.md # markdown -> PDF via ohimark
 go test ./examples/cv
 go test ./examples/prospectus
 ```
