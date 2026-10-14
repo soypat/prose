@@ -229,3 +229,11 @@ func (d *Doc) Section(num, title string, first Elem) *Doc {
 func (d *Doc) Bookmark(title string, level int) *Doc {
 	return d.Add(d.kit.Bookmark(title, level))
 }
+
+// Image appends a picture w points wide; zero w is the measure.
+func (d *Doc) Image(img Image, w float64) *Doc { return d.Add(d.kit.Image(img, w)) }
+
+// Figure appends a picture over its caption, held on one page.
+func (d *Doc) Figure(img Image, w float64, caption string) *Doc {
+	return d.Add(d.kit.Figure(img, w, caption))
+}

@@ -1,6 +1,9 @@
 package prose
 
-import piudoc "github.com/soypat/piudf/piupage/piudoc"
+import (
+	canvas "github.com/soypat/piudf/piupage"
+	piudoc "github.com/soypat/piudf/piupage/piudoc"
+)
 
 // The piudoc vocabulary a document names, re-exported so that writing one needs
 // this package alone. They are aliases, not wrappers: a value here is the same
@@ -14,6 +17,8 @@ type (
 	PageSize    = piudoc.PageSize
 	Margins     = piudoc.Margins
 	BulletStyle = piudoc.BulletStyle
+	// Image is any image.Image, or a JPEG file kept as it stands. See [ReadImage].
+	Image = canvas.Image
 )
 
 const (

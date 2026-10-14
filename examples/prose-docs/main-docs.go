@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"image"
+	"image/color"
 	"log"
 	"time"
 
@@ -141,5 +143,37 @@ d.Title("prose").Body("A generator should hold its content.")`)
 
 	d.Note("Text arrives as markup — <b>&lt;b&gt;</b>, <b>&lt;i&gt;</b>, <b>&lt;a href&gt;</b>, <b>&lt;br/&gt;</b> — because a document's own words are formatting its author wrote. Data that must not be read as markup goes through <b>Kit.Literal</b>.")
 
+	d.Section("04", "Pictures",
+		k.Body("<b>ReadImage</b> keeps a JPEG as the file it is, handed to the reader undecoded; anything else is decoded and its pixels compressed. A picture drawn twice is sent once. Its width is the one thing to decide: zero takes the frame it lands in, and a picture never spills out of its column."))
+
+	// Drawn from the palette rather than read from a file, so the card above
+	// still counts no files.
+	pal := th.Palette
+	d.Figure(swatches(pal.Ink, pal.Body, pal.Muted, pal.Accent, pal.Link, pal.Hair, pal.Band, pal.CodeBg), 0,
+		"DefaultPalette as a 192×24-pixel image stretched to the measure: Ink, Body, Muted, Accent, Link, Hair, Band and CodeBg.").
+		Space(9)
+
+	d.Code(`team, err := prose.OpenImage(assets, "team.jpeg") // stays a JPEG
+if err != nil {
+    return err
+}
+d.Figure(team, 0, "The team.") // the measure, caption beneath
+d.Add(k.Columns([]float64{150, 0},
+    k.Image(team, 0), k.Body("Beside it."))) // fills its column`)
+
 	d.Add(k.Keep(k.Space(18), k.Panel(`A document that needs a glyph its faces cannot draw is refused rather than written, so the fault reaches the author and never a reader. See <a href="https://github.com/soypat/prose">github.com/soypat/prose</a>.`)))
+}
+
+// swatches is a strip of colour bands, 24 pixels square apiece.
+func swatches(cols ...color.Color) *image.NRGBA {
+	const side = 24
+	m := image.NewNRGBA(image.Rect(0, 0, side*len(cols), side))
+	for i, c := range cols {
+		for y := range side {
+			for x := range side {
+				m.Set(i*side+x, y, c)
+			}
+		}
+	}
+	return m
 }
