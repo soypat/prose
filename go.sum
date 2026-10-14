@@ -1,10 +1,8 @@
 github.com/soypat/lefevre v0.0.0-20260816213937-7ecc332044df h1:RakgqDAKvg6eS5oLWoEtAtFnaZ09qwA8JqF/0Kifkzs=
 github.com/soypat/lefevre v0.0.0-20260816213937-7ecc332044df/go.mod h1:isEsoKIedVFjONjTPEzACot3Wj7eHvvI1y7j56X3ffU=
-github.com/soypat/lexorg v0.1.1 h1:IKeQeszT+VKsnHHgL1rM/WrTutswmTYp9WzNXVdxxMI=
-github.com/soypat/lexorg v0.1.1/go.mod h1:iK2sgPdrDdmLyjzPosyl5bPEaF7w/MI9kaDpqLVyxJk=
-github.com/soypat/ohimark v0.0.0-20260809225011-8febe52fc8c8 h1:YedMnkgb6M392Ads6Z4MC0EFF2Nv8GI6xWMyInaWnKQ=
-github.com/soypat/ohimark v0.0.0-20260809225011-8febe52fc8c8/go.mod h1:A3fkUeuGeCaQgsuPAmFuZV2CZv9hjKzmBZUTeJyExMw=
-github.com/soypat/piudf v0.0.0-20261014031122-0488960bca38 h1:8bnKAfuCfkwsdD4xkQpVIISjMQpa3TO8ajZ7SaBZfR0=
-github.com/soypat/piudf v0.0.0-20261014031122-0488960bca38/go.mod h1:G6fpCM1bkMaCgrutvuOorahiUeAvH50aY29OsLhFOR4=
+github.com/soypat/lexorg v0.1.2 h1:WaJHXfL0r8QoGMbL31JppgDjgqv9rDu/cVQwEXTD0Dw=
+github.com/soypat/lexorg v0.1.2/go.mod h1:iK2sgPdrDdmLyjzPosyl5bPEaF7w/MI9kaDpqLVyxJk=
+github.com/soypat/ohimark v0.0.0-20261014185639-708d2f179a5c h1:Mx1KSuRrQ8EeGLZVutZVqllpTcgtJoyz6jS0jfX+Mr4=
+github.com/soypat/ohimark v0.0.0-20261014185639-708d2f179a5c/go.mod h1:A3fkUeuGeCaQgsuPAmFuZV2CZv9hjKzmBZUTeJyExMw=
 github.com/soypat/piudf v0.0.0-20261014041336-13e9c2478216 h1:vot3jLQvWCC99Ny5yFNLLtBbTnWHhzbWw+zYDpsvW3A=
 github.com/soypat/piudf v0.0.0-20261014041336-13e9c2478216/go.mod h1:G6fpCM1bkMaCgrutvuOorahiUeAvH50aY29OsLhFOR4=
