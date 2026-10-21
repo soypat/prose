@@ -2,10 +2,19 @@
 Generate beautiful PDFs.
 
 prose underneath uses the [piudf](https://github.com/soypat/piudf) PDF decoding/encoding library.
+
+## Markdown to PDF
+The [`md2pdf`](./md2pdf) package sets markdown as a PDF, reading it with [ohimark](https://github.com/soypat/ohimark). Conventions beyond plain markdown, like a cover page or total bars under a price table, plug in as handlers.
+```
+go run ./cmd/md2pdf notes.md                       # writes notes.pdf
+go run ./cmd/md2pdf -break 1 -ext toc,terms notes.md
+go run ./cmd/md2pdf -h                             # every flag
+```
+
 ## Generate examples
 ```
 go run ./examples/prose-docs
-go run ./examples/proposal -i local/proposal/proposal.md # markdown -> PDF via ohimark
+go run ./examples/proposal -i examples/proposal/example-proposal.md -o proposal.pdf # md2pdf with a cover handler
 go test ./examples/cv
 go test ./examples/prospectus
 ```
