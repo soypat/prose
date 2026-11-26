@@ -18,6 +18,7 @@ g2e
 *.cb2
 .*.lb
 *.stl
+*.json
 
 ## Intermediate documents:
 *.dvi
